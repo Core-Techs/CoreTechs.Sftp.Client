@@ -32,15 +32,15 @@ namespace CoreTechs.Sftp.Client
                 int port = 0;
                 if (int.TryParse(Port, out port) == false)
                 {
-                    port = 20;
+                    port = 22;
                 }
 
                 var cxnStrBldr = new DbConnectionStringBuilder();
                 cxnStrBldr.Add("host", Host);
                 cxnStrBldr.Add("username", Username);
                 cxnStrBldr.Add("password", Password);
-                cxnStrBldr.Add("hostkey", Hostkey);
                 cxnStrBldr.Add("port", port.ToString());
+                cxnStrBldr.Add("hostkey", Hostkey);
                     
                 return cxnStrBldr.ToString();
             }

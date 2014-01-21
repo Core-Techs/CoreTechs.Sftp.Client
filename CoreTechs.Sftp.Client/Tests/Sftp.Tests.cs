@@ -9,9 +9,12 @@ namespace CoreTechs.Sftp.Client.Tests
     {
         private const string Cs =
             "username=test;password=test;host=localhost;hostkey=ssh-dss 1024 88:89:38:e8:d0:c4:f4:46:a4:b0:2b:7d:e0:ba:e9:fb";
+        private const string DummyFileExt =
+            ".test";
+        private const string SearchPattern =
+            "*" + DummyFileExt;
 
         [Test]
-        //[Repeat(10)]
         public void CanMakeAndDeleteADummyFile()
         {
             const int mb = 1048576;
@@ -28,26 +31,23 @@ namespace CoreTechs.Sftp.Client.Tests
         }
 
         [Test]
-        //[Repeat(10)]
         public void CanUploadToRootDir()
         {
             using (var file = new DummyFile(1024 * 1024 * 3))
             {
-                Sftp.UploadFile(Cs, file.FileInfo.Name);
+                Sftp.UploadFile(Cs, file.FileInfo.FullName);
             }
         }
         [Test]
-        //[Repeat(10)]
         public void CanUpload2FilesToRootDir()
         {
             using (var file1 = new DummyFile(1024 * 1024 * 3))
             using (var file2 = new DummyFile(1024 * 1024 * 3))
             {
-                Sftp.UploadFiles(Cs, file1.FileInfo.DirectoryName, "*.*");
+                Sftp.UploadFiles(Cs, file1.FileInfo.DirectoryName, SearchPattern);
             }
         }
         [Test]
-        //[Repeat(10)]
         public void CanUploadFileToRootDirUsingProperties()
         {
             using (var file = new DummyFile(1024 * 1024 * 3))
@@ -57,13 +57,12 @@ namespace CoreTechs.Sftp.Client.Tests
                 Sftp.Username = csb["username"] as string;
                 Sftp.Password = csb["password"] as string;
                 Sftp.Hostkey = csb["hostkey"] as string;
-                Sftp.Port = csb["port"] as string;
+                Sftp.Port = csb.ContainsKey("port") ? csb["port"] as string : string.Empty;
 
-                Sftp.UploadFile(file.FileInfo.Name);
+                Sftp.UploadFile(file.FileInfo.FullName);
             }
         }
         [Test]
-        //[Repeat(10)]
         public void CanUpload2FilesToRootDirUsingProperties()
         {
             using (var file1 = new DummyFile(1024 * 1024 * 3))
@@ -74,50 +73,48 @@ namespace CoreTechs.Sftp.Client.Tests
                 Sftp.Username = csb["username"] as string;
                 Sftp.Password = csb["password"] as string;
                 Sftp.Hostkey = csb["hostkey"] as string;
-                Sftp.Port = csb["port"] as string;
+                Sftp.Port = csb.ContainsKey("port") ? csb["port"] as string : string.Empty;
 
-                Sftp.UploadFiles(file1.FileInfo.DirectoryName, "*.*");
+                Sftp.UploadFiles(file1.FileInfo.DirectoryName, SearchPattern);
             }
         }
 
         [Test]
-        //[Repeat(10)]
         public void CanUploadToSubDir()
         {
             using (var file = new DummyFile(1024 * 1024 * 3))
             {
-                Sftp.UploadFile(Cs, file.FileInfo.Name, remoteDirectoryPath: "subdir");
+                Sftp.UploadFile(Cs, file.FileInfo.FullName, remoteDirectoryPath: "subdir");
             }
         }
 
         [Test]
-        //[Repeat(10)]
         public void CanUploadToSubSubDir()
         {
             using (var file = new DummyFile(1024 * 1024 * 3))
             {
-                Sftp.UploadFile(Cs, file.FileInfo.Name, remoteDirectoryPath: "a/b/c");
-            } 
-        }
-    }
-
-    internal class DummyFile : IDisposable
-    {
-        public FileInfo FileInfo { get; set; }
-
-        public DummyFile(int byteLength)
-        {
-            FileInfo = new FileInfo(Path.GetTempFileName());
-            File.WriteAllBytes(FileInfo.FullName, new byte[byteLength]);
-        }
-
-        public void Dispose()
-        {
-            try
-            {
-                FileInfo.Delete();
+                Sftp.UploadFile(Cs, file.FileInfo.FullName, remoteDirectoryPath: "a/b/c");
             }
-            catch { }
+        }
+
+        internal class DummyFile : IDisposable
+        {
+            public FileInfo FileInfo { get; set; }
+
+            public DummyFile(int byteLength)
+            {
+                FileInfo = new FileInfo(Path.Combine(Path.GetDirectoryName(Path.GetTempFileName()), Guid.NewGuid().ToString() + DummyFileExt));
+                File.WriteAllBytes(FileInfo.FullName, new byte[byteLength]);
+            }
+
+            public void Dispose()
+            {
+                try
+                {
+                    FileInfo.Delete();
+                }
+                catch { }
+            }
         }
     }
 }
