@@ -8,7 +8,7 @@ namespace CoreTechs.Sftp.Client.Tests
     class SFTPTests
     {
         private const string Cs =
-            "username=pcsi;password=pcsi;host=localhost;hostkey=ssh-dss 1024 9b:3f:14:6a:6f:36:7f:b7:58:f4:e4:89:0d:3f:c2:26";
+            "username=pcsi;password=pcsi;host=localhost;hostkey=ssh-dss 1024 88:89:38:e8:d0:c4:f4:46:a4:b0:2b:7d:e0:ba:e9:fb";
 
         [Test]
         //[Repeat(10)]
