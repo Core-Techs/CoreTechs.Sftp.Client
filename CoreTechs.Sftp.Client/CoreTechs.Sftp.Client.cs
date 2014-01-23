@@ -85,11 +85,18 @@ namespace CoreTechs.Sftp.Client
         /// </remarks>
         public static void UploadFile(string sftpConnectionString, string fileName, bool overwrite = false, string remoteDirectoryPath = null)
         {
-            using (var sftp = sftpConnectionString.CreateSftpClient())
+            try
             {
-                sftp.Connect();
-                sftp.UploadFile(fileName, overwrite, remoteDirectoryPath);
-                sftp.Disconnect();
+                using (var sftp = sftpConnectionString.CreateSftpClient())
+                {
+                    sftp.Connect();
+                    sftp.UploadFile(fileName, overwrite, remoteDirectoryPath);
+                    sftp.Disconnect();
+                }
+            }
+            catch (SshException ex)  // Wrap SSH exception and re-throw.  This allows the caller to be ignorant of Renci implementation details.
+            {
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -106,14 +113,21 @@ namespace CoreTechs.Sftp.Client
         /// </remarks>
         public static void UploadFiles(string sftpConnectionString, string localPath, string searchPattern, bool overwrite = false, string remoteDirectoryPath = null)
         {
-            using (var sftp = sftpConnectionString.CreateSftpClient())
+            try
             {
-                foreach (string fileName in Directory.GetFiles(localPath, searchPattern))
+                using (var sftp = sftpConnectionString.CreateSftpClient())
                 {
-                    sftp.Connect();
-                    sftp.UploadFile(fileName, overwrite, remoteDirectoryPath);
-                    sftp.Disconnect();
+                    foreach (string fileName in Directory.GetFiles(localPath, searchPattern))
+                    {
+                        sftp.Connect();
+                        sftp.UploadFile(fileName, overwrite, remoteDirectoryPath);
+                        sftp.Disconnect();
+                    }
                 }
+            }
+            catch (SshException ex)  // Wrap SSH exception and re-throw.  This allows the caller to be ignorant of Renci implementation details.
+            {
+                throw new Exception(ex.Message, ex);
             }
         }
 
