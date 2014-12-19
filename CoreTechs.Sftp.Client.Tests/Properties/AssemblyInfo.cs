@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CoreTechs.Sftp.Client")]
-[assembly: AssemblyDescription("Secure FTP client library.")]
+[assembly: AssemblyTitle("CoreTechs.Sftp.Client.Tests")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("CoreTechs, Inc.")]
-[assembly: AssemblyProduct("CoreTechs.Sftp.Client")]
-[assembly: AssemblyCopyright("Copyright © CoreTechs, Inc. 2014")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("CoreTechs.Sftp.Client.Tests")]
+[assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b7b47697-ccd7-4213-9636-a1de1f9ef49a")]
+[assembly: Guid("6af27047-24c2-4cdf-8c50-8b166206e32c")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.2")]
-[assembly: AssemblyFileVersion("1.0.0.2")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

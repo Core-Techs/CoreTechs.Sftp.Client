@@ -8,7 +8,7 @@ namespace CoreTechs.Sftp.Client.Tests
     class SFTPTests
     {
         private const string Cs =
-            "username=test;password=test;host=localhost;hostkey=ssh-dss 1024 88:89:38:e8:d0:c4:f4:46:a4:b0:2b:7d:e0:ba:e9:fb";
+            "username=Admin;password=Test@1234;host=127.0.0.1;port=22;hostkey=ssh-rsa 2048 bf:68:ae:99:b9:a8:08:34:71:5c:d1:4f:7d:0f:4b:c9";
         private const string DummyFileExt =
             ".test";
         private const string SearchPattern =
@@ -35,7 +35,7 @@ namespace CoreTechs.Sftp.Client.Tests
         {
             using (var file = new DummyFile(1024 * 1024 * 3))
             {
-                Sftp.UploadFile(Cs, file.FileInfo.FullName);
+                Sftp.UploadFile(Cs, file.FileInfo.FullName, true);
             }
         }
         [Test]
@@ -44,7 +44,7 @@ namespace CoreTechs.Sftp.Client.Tests
             using (var file1 = new DummyFile(1024 * 1024 * 3))
             using (var file2 = new DummyFile(1024 * 1024 * 3))
             {
-                Sftp.UploadFiles(Cs, file1.FileInfo.DirectoryName, SearchPattern);
+                Sftp.UploadFiles(Cs, file1.FileInfo.DirectoryName, SearchPattern, true);
             }
         }
         [Test]
@@ -59,7 +59,7 @@ namespace CoreTechs.Sftp.Client.Tests
                 Sftp.Hostkey = csb["hostkey"] as string;
                 Sftp.Port = csb.ContainsKey("port") ? csb["port"] as string : string.Empty;
 
-                Sftp.UploadFile(file.FileInfo.FullName);
+                Sftp.UploadFile(file.FileInfo.FullName, true);
             }
         }
         [Test]
@@ -75,7 +75,7 @@ namespace CoreTechs.Sftp.Client.Tests
                 Sftp.Hostkey = csb["hostkey"] as string;
                 Sftp.Port = csb.ContainsKey("port") ? csb["port"] as string : string.Empty;
 
-                Sftp.UploadFiles(file1.FileInfo.DirectoryName, SearchPattern);
+                Sftp.UploadFiles(file1.FileInfo.DirectoryName, SearchPattern, true);
             }
         }
 
@@ -84,7 +84,7 @@ namespace CoreTechs.Sftp.Client.Tests
         {
             using (var file = new DummyFile(1024 * 1024 * 3))
             {
-                Sftp.UploadFile(Cs, file.FileInfo.FullName, remoteDirectoryPath: "subdir");
+                Sftp.UploadFile(Cs, file.FileInfo.FullName, true, "subdir");
             }
         }
 
@@ -93,7 +93,7 @@ namespace CoreTechs.Sftp.Client.Tests
         {
             using (var file = new DummyFile(1024 * 1024 * 3))
             {
-                Sftp.UploadFile(Cs, file.FileInfo.FullName, remoteDirectoryPath: "a/b/c");
+                Sftp.UploadFile(Cs, file.FileInfo.FullName, true, "a/b/c");
             }
         }
 
