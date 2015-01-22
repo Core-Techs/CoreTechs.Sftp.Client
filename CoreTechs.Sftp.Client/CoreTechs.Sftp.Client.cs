@@ -202,7 +202,7 @@ namespace CoreTechs.Sftp.Client
             {
                 throw new FormatException(
                     string.Format(
-                        "SFTP connection string invalid. {0} Example: username=joe;password=pdubz;host=localhost;hostkey=ssh-dss 1024 3b:1c:20:aa:27:00:83:4f:7a:49:9c:9f:e7:67:ab:03",
+                        "SFTP connection string invalid. {0} Example: username=USERNAME;password=PASSWORD;host=HOSTNAME;hostkey=ssh-dss 1024 3b:1c:20:aa:27:00:83:4f:7a:49:9c:9f:e7:67:ab:03",
                         detail ?? ""));
             };
 
